@@ -111,7 +111,7 @@ export default function DashboardPage() {
             <StatCard
               icon={CheckCircle}
               title="Success Rate"
-              value={`${stats?.successRate}%`}
+              value={`${stats?.successRate ?? 0}%`}
               description="Scan completion rate"
             />
             <StatCard
