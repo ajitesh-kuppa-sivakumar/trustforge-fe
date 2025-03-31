@@ -131,7 +131,7 @@ export default function ScanPage() {
 
                 {isUploading && (
                   <div className="space-y-2">
-                    <Progress value={uploadProgress} />
+                    <Progress value={uploadProgress || 0} />
                     <p className="text-sm text-center text-muted-foreground">
                       Uploading... {uploadProgress}%
                     </p>

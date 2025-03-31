@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import {
   Table,
   TableHeader,
@@ -56,31 +56,34 @@ const ReportPage = () => {
   const router = useRouter();
   const { toast } = useToast();
 
-  const fetchReports = async (page: number, limit: number) => {
-    try {
-      setIsLoading(true);
-      const response = await scan.getAllReports(page, limit);
-      setReports(response.data);
-      setTotalPages(response.totalPages || 1);
-      // Reset to first page if current page exceeds new total pages
-      if (page > (response.totalPages || 1)) {
-        setCurrentPage(1);
+  const fetchReports = useCallback(
+    async (page: number, limit: number) => {
+      try {
+        setIsLoading(true);
+        const response = await scan.getAllReports(page, limit);
+        setReports(response.data);
+        setTotalPages(response.totalPages || 1);
+        // Reset to first page if current page exceeds new total pages
+        if (page > (response.totalPages || 1)) {
+          setCurrentPage(1);
+        }
+      } catch (error) {
+        console.error("Failed to fetch reports:", error);
+        toast({
+          variant: "destructive",
+          title: "Error",
+          description: "Failed to fetch reports. Please try again.",
+        });
+      } finally {
+        setIsLoading(false);
       }
-    } catch (error) {
-      console.error("Failed to fetch reports:", error);
-      toast({
-        variant: "destructive",
-        title: "Error",
-        description: "Failed to fetch reports. Please try again.",
-      });
-    } finally {
-      setIsLoading(false);
-    }
-  };
+    },
+    [toast]
+  );
 
   useEffect(() => {
     fetchReports(currentPage, limit);
-  }, [currentPage, limit, toast]);
+  }, [currentPage, limit, fetchReports]);
 
   const handleView = (scanId: string) => {
     router.push(`/reports/${scanId}`);

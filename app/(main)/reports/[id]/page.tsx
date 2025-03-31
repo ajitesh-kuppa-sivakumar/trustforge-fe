@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useParams } from "next/navigation";
 import {
   Shield,
@@ -392,7 +392,7 @@ export default function ReportPage() {
     };
   };
 
-  const checkScanStatus = async () => {
+  const checkScanStatus = useCallback(async () => {
     try {
       setIsLoading(true);
       const scanId = Array.isArray(id) ? id[0] : id;
@@ -433,7 +433,7 @@ export default function ReportPage() {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [id]);
 
   const retryScan = async () => {
     try {
@@ -471,7 +471,7 @@ export default function ReportPage() {
 
   useEffect(() => {
     checkScanStatus();
-  }, [id]);
+  }, [checkScanStatus]);
 
   const renderVirusTotalCard = () => {
     if (!report?.virustotal || "error" in report.virustotal) {
@@ -1263,7 +1263,7 @@ export default function ReportPage() {
                     <span>Trust Forge Score</span>
                     <span>{report.tfScore}/100</span>
                   </div>
-                  <Progress value={report.tfScore} className="h-2" />
+                  <Progress value={report.tfScore || 0} className="h-2" />
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
