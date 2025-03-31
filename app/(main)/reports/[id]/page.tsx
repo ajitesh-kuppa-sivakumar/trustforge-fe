@@ -973,12 +973,9 @@ export default function ReportPage() {
 
     return (
       <Tabs defaultValue="findings" className="w-full">
-        <TabsList className="grid w-full grid-cols-2">
+        <TabsList className="grid w-full grid-cols-1">
           <TabsTrigger value="findings">
             Findings ({report.findings.length})
-          </TabsTrigger>
-          <TabsTrigger value="recommendations">
-            Recommendations ({report.recommendations.length})
           </TabsTrigger>
         </TabsList>
         <TabsContent value="findings" className="mt-4">
@@ -1054,51 +1051,6 @@ export default function ReportPage() {
                   ))}
                 </Accordion>
               )}
-            </CardContent>
-          </Card>
-        </TabsContent>
-        <TabsContent value="recommendations" className="mt-4">
-          <Card>
-            <CardContent className="p-4 sm:p-6">
-              <div className="space-y-4">
-                {report.recommendations.length === 0 ? (
-                  <div className="text-center text-muted-foreground">
-                    No recommendations available.
-                  </div>
-                ) : (
-                  report.recommendations.map((rec, index) => (
-                    <div
-                      key={index}
-                      className="flex items-start space-x-4 p-4 bg-secondary/30 rounded-lg"
-                    >
-                      <div className="flex-shrink-0">
-                        {PRIORITY_ICONS[rec.priority]}
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <h3 className="font-semibold">{rec.title}</h3>
-                        <p className="text-muted-foreground mt-1">
-                          {rec.description}
-                        </p>
-                        <div className="mt-2">
-                          <span
-                            className={`text-xs px-2 py-1 rounded-full ${
-                              rec.priority === "critical"
-                                ? "bg-red-500/20 text-red-500"
-                                : rec.priority === "high"
-                                ? "bg-orange-500/20 text-orange-500"
-                                : rec.priority === "medium"
-                                ? "bg-yellow-500/20 text-yellow-500"
-                                : "bg-blue-500/20 text-blue-500"
-                            }`}
-                          >
-                            {rec.priority} priority
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  ))
-                )}
-              </div>
             </CardContent>
           </Card>
         </TabsContent>
