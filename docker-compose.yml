@@ -5,6 +5,6 @@ services:
     image: trustforge-fe:v1.0
     container_name: trustforge-fe
     ports:
-      - "3000:3000" # Host:Container port mapping
+      - "3005:3000" # Host:Container port mapping
     restart: unless-stopped # Auto-restart policy
     # Run detached by default (no need to specify in compose)
